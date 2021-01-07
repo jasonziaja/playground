@@ -42,7 +42,6 @@ function printHeader {
         bars="$bars-"
     done
 
-    printf "\n"
     printStatus app status
     printStatus $bars $bars
 }
