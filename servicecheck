@@ -1,0 +1,74 @@
+#!/bin/zsh
+
+declare -A urls
+urls[fig]=9102/configs
+urls[jiujitsu]=8950
+urls[eureka]=9903
+urls[security]=8775
+urls[tokenizer]=8625
+urls[diners]=8450
+urls[littlebus]=8210
+
+function colorText {
+    text=$1
+    defaultColor="\e[0m"
+    color=$defaultColor
+
+    case $2 in
+        "green")
+            color="\e[1;32m"
+            ;;
+        "red")
+            color="\e[1;31m"
+            ;;
+    esac
+
+    echo $color$text$defaultColor
+}
+
+maxLength=0
+function printHeader {
+    for app in ${(k)urls}
+    do
+        length=${#app}
+        if [[ $length -gt $maxLength ]] ; then
+            maxLength=$length
+        fi
+    done
+
+    bars=""
+    for i in `seq 1 ${maxLength}`
+    do
+        bars="$bars-"
+    done
+
+    printf "\n"
+    printStatus app status
+    printStatus $bars $bars
+}
+
+function printStatus {
+    printf "%${maxLength}s | %b\n" $1 $2
+}
+
+function run {
+    printHeader
+
+    for app in ${(k)urls}
+    do
+        url="http://$app.dockernet:${urls[$app]}"
+        statusCode=`curl $url --write-out %{response_code} --silent --output /dev/null`
+
+        if [[ $statusCode -eq 200 ]] ; then
+            statusText=$(colorText UP green)
+        elif [[ $app -eq "jiujitsu" && $statusCode -eq 404 ]] ; then
+            statusText=$(colorText UP green)
+        else
+            statusText=$(colorText DN red)
+        fi
+
+        printStatus $app $statusText
+    done
+}
+
+run
