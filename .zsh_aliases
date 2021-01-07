@@ -1,0 +1,5 @@
+alias gci='./gradlew ci'
+alias rbtl='./run-big-tests-local.sh'
+alias dbdos='./gradlew cass-update'
+alias dbdo='./gradlew cass-teardown && dbdos'
+alias logtail='grc -c ~/.grc/grc.conf docker logs -fn 500'
