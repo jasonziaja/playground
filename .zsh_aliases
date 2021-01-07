@@ -1,5 +1,20 @@
+# Git
+alias g=git
+g config --global alias.st status
+g config --global alias.co checkout
+g config --global alias.aa 'add -Av'
+
+# Gradle
 alias gci='./gradlew ci'
+
+# Big tests
 alias rbtl='./run-big-tests-local.sh'
+alias bigtests=rbtl
+alias healthchecks=bigtests Run_HealthCheckSuiteSimulation
+
+# Cassandra
 alias dbdos='./gradlew cass-update'
 alias dbdo='./gradlew cass-teardown && dbdos'
+
+# Docker
 alias logtail='grc -c ~/.grc/grc.conf docker logs -fn 500'
