@@ -15,6 +15,7 @@ alias healthchecks=bigtests Run_HealthCheckSuiteSimulation
 # Cassandra
 alias dbdos='./gradlew cass-update'
 alias dbdo='./gradlew cass-teardown && dbdos'
+alias ccmreset='ccm remove && ccm create -i 172.10.10. -v 2.2.7 -n3 garcon && ccm start && ccm status'
 
 # Docker
 alias logtail='grc -c ~/.grc/grc.conf docker logs -fn 500'
